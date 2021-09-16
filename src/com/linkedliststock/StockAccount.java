@@ -1,4 +1,4 @@
-package com.commercialdataprocessing;
+package com.linkedliststock;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -9,7 +9,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-
 /**
  * This class is used to calculate stock for the user
  */
@@ -18,16 +17,16 @@ public class StockAccount implements StockInterface {
 
     private String fileName;
     
-    public List<CompanyShares> getCompanyShares() {
+    public MyLinkedList<CompanyShares> getCompanyShares() {
         return companyShares;
     }
 
-    public void setCompanyShares(List<CompanyShares> companyShares) {
+    public void setCompanyShares(MyLinkedList<CompanyShares> companyShares) {
         this.companyShares = companyShares;
     }
 
     private JSONArray stocksData;
-    List<CompanyShares> companyShares = new ArrayList<>();
+    MyLinkedList<CompanyShares> companyShares = new MyLinkedList<CompanyShares>();
 
     StockAccount(String fileName) {
         this.fileName = fileName;
@@ -35,7 +34,7 @@ public class StockAccount implements StockInterface {
 
     public void initialize(){
         try {
-            List<CompanyShares> companySharesList = new ArrayList();
+            MyLinkedList<CompanyShares> companySharesList = new MyLinkedList<CompanyShares>();
             FileReader reader = new FileReader(fileName);
             JSONParser parser = new JSONParser();
             JSONObject obj = (JSONObject) parser.parse(reader);
@@ -81,8 +80,8 @@ public class StockAccount implements StockInterface {
     @Override
     public double valueof() {
         double value = 0;
-        for (CompanyShares companyShare : companyShares) {
-            value += valueof(companyShare);
+        for (Node<CompanyShares> companyShare : companyShares) {
+            value += valueof(companyShare.getData());
         }  
         return value;
     }
@@ -110,7 +109,8 @@ public class StockAccount implements StockInterface {
         }
         else {
             CompanyShares newCompanyShare = null;
-            for (CompanyShares companyShare : companyShares) {
+            for (Node<CompanyShares> compShare : companyShares) {
+            	CompanyShares companyShare = compShare.getData();
                 if (companyShare.getStockSymbol().equals(symbol)) {
                     newCompanyShare = companyShare;
                     companyShares.remove(companyShare);
@@ -192,7 +192,8 @@ public class StockAccount implements StockInterface {
         PrintWriter out = new PrintWriter(System.out);
         long numberOfShares = 0;
 
-        for (CompanyShares companyShare : companyShares) {
+        for (Node<CompanyShares> compShare : companyShares) {
+        	CompanyShares companyShare = compShare.getData();
             if (companyShare.getStockSymbol().equals(symbol)) {
                 numberOfShares = companyShare.getNumberOfShares();
             }
@@ -203,7 +204,8 @@ public class StockAccount implements StockInterface {
         }
         else {
             CompanyShares selectedShare = null;
-            for (CompanyShares companyShare : companyShares) {
+            for (Node<CompanyShares> compShare : companyShares) {
+            	CompanyShares companyShare = compShare.getData();
                 if (companyShare.getStockSymbol().equals(symbol)) {
                     selectedShare = companyShare;
                     companyShares.remove(companyShare);
@@ -224,7 +226,8 @@ public class StockAccount implements StockInterface {
     @Override
     public void save(String filename) {
         JSONArray compShares = new JSONArray();
-        for (CompanyShares companyShare : companyShares) {
+        for (Node<CompanyShares> compShare : companyShares) {
+        	CompanyShares companyShare = compShare.getData();
             String stockSymbol = companyShare.getStockSymbol();
             long numberOfShares = companyShare.getNumberOfShares();
             JSONArray transactions = new JSONArray();
@@ -295,7 +298,8 @@ public class StockAccount implements StockInterface {
         PrintWriter out = new PrintWriter(System.out, true);
         out.println("Stock Report");
         out.println("Holding Shares\n");
-        for (CompanyShares companyShare : companyShares) {
+        for (Node<CompanyShares> compShare : companyShares) {
+        	CompanyShares companyShare = compShare.getData();
             out.println("Share Symbol : " + companyShare.getStockSymbol());
             out.println("Number of Shares Holding : " + companyShare.getNumberOfShares());
             double valueEach = 0;
