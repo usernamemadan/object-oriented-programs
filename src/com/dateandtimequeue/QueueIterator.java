@@ -1,12 +1,12 @@
-package com.stocksymbolstack;
+package com.dateandtimequeue;
 
 import java.util.Iterator;
 
-public class StackIterator <T> implements Iterator<Node<T>> {
+public class QueueIterator<T> implements Iterator<Node<T>>{
     Node<T> current;
 
-    public StackIterator(Node<T> top) {
-        current = top;
+    QueueIterator(Node<T> front) {
+        current = front;
     }
 
     @Override

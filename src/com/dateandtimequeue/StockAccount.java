@@ -1,4 +1,4 @@
-package com.stocksymbolstack;
+package com.dateandtimequeue;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,6 +28,7 @@ public class StockAccount implements StockInterface {
     private JSONArray stocksData;
     MyLinkedList<CompanyShares> companyShares = new MyLinkedList<CompanyShares>();
     Stack<JSONObject> stack = new Stack<JSONObject>();
+    Queue<String> dateTime = new Queue<String>();
 
     StockAccount(String fileName) {
         this.fileName = fileName;
@@ -42,6 +43,7 @@ public class StockAccount implements StockInterface {
             JSONArray companyShares = (JSONArray) obj.get("companyShares");
             JSONArray transactionStack = (JSONArray) obj.get("transactionStack");
             Iterator<JSONObject> iterate = companyShares.iterator();
+            JSONArray dateTimeArr = (JSONArray) obj.get("dateTime");
             if (companyShares == null) {
                 return;
             }
@@ -74,6 +76,10 @@ public class StockAccount implements StockInterface {
             iterate = transactionStack.iterator();
             while (iterate.hasNext()) {
                 stack.push(iterate.next());
+            }
+            Iterator<String> iterate2 = dateTimeArr.iterator();
+            while (iterate2.hasNext()) {
+                dateTime.enqueue(iterate2.next());
             }
 
             

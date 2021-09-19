@@ -1,4 +1,4 @@
-package com.stocksymbolstack;
+package com.dateandtimequeue;
 
 public interface StockInterface {
 	  double valueof();

@@ -1,4 +1,4 @@
-package com.stocksymbolstack;
+package com.dateandtimequeue;
 
 import java.util.EmptyStackException;
 import java.util.Iterator;
